@@ -14,18 +14,27 @@ function processData (form) {
 
     for ( var i = 0; i< formInputs.length; i++ )  {
         if ( formInputs[i].checkValidity() == false ) {
-            formInputs[i].style.border = "1px solid red";
+            formInputs[i].style.border = "2px solid red";
         }
         else {
-            formInputs[i].style.border = "1px solid green";
+            formInputs[i].style.border = "2px solid green";
         }
     }
 }
 
-
-
-
-
+function fillData () {
+    document.getElementById("email").value="michal@domain.com";
+    document.getElementById("code").value="92-113";
+    document.getElementById("nip").value="188-890-11-12";
+    document.getElementById("id_card").value="EAB891234";
+    document.getElementById("ipv4").value="192.168.100.56";
+    document.getElementById("website").value="https://www.google.com";
+    document.getElementById("path").value="C:\\windows\\files";
+    document.getElementById("path2").value="C:\\Users\\michal\\Dokumenty";
+    document.getElementById("filepath").value="/home/michal";
+    document.getElementById("ipv6").value="michal.email@domain.com";
+    document.getElementById("phone").value="678910421";
+}
 </script>
 
 <form>
@@ -48,10 +57,10 @@ function processData (form) {
     <input id="website" name="website" placeholder="https://www.google.com/" type="url" required><br><br>
 
     <label for="path">ścieżka</label><br>
-    <input type="text" id="path" name="path" placeholder="C:\windows\temp" pattern="[A-Z]+:\\[a-z]+\\[a-z]+" required><br><br>
+    <input type="text" id="path" name="path" placeholder="C:\windows\temp" pattern="^[A-Z]+:\\[a-z]+\\[a-z]+$" required><br><br>
 
     <label for="path2">ścieżka z dużymi literami</label><br>
-    <input type="text" id="path2" name="path2" placeholder="C:\Windows\temp" pattern="[A-Z]+:\\[A-Za-z]+\\[A-Za-z]+" required><br><br>
+    <input type="text" id="path2" name="path2" placeholder="C:\Windows\temp" pattern="^[A-Z]+:\\[A-Z][a-z]+\\[A-Z][a-z]+$" required><br><br>
 
     <label for="filepath">ścieżka do pliku</label><br>
     <input type="text" id="filepath" name="filepath" placeholder="/etc/hosts" pattern="^(/[^/ ]*)+/?$" required><br><br>
@@ -62,8 +71,8 @@ function processData (form) {
     <label for="phone">numer telefonu</label><br>
     <input id="phone" name="phone" placeholder="567810344" type="tel" pattern="^[0-9]{9}$" required><br><br>
 
-    <input type="submit" onClick="processData(this.form)"/>
-
+    <input type="submit" onClick="processData(this.form)"/> &nbsp;
+    <button onClick="fillData()">Wypełnij pola</button>
 </form>
 </body>
 </html>
