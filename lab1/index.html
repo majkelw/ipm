@@ -2,20 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
 </head>
-
-
 <body>
 
-<script>
-    $("#form").submit(function(e){
-    e.preventDefault();
 
-});
-
-</script>
-<form method="post">
+<form>
     <label for="email">adres email</label><br>
     <input id="email" name="email" placeholder="michal@gmail.com" type="email" required><br><br>
 
@@ -35,10 +26,10 @@
     <input id="website" name="website" placeholder="www.google.com" type="url" required><br><br>
 
     <label for="sciezka">Scieżka</label><br>
-    <input type="text" id="sciezka" name="sciezka" placeholder="C:\windows\temp"><br><br>
+    <input type="text" id="sciezka" name="sciezka" placeholder="C:\windows\temp" pattern="[A-Z]+:\\[a-z]+\\[a-z]+"><br><br>
 
     <label for="sciezka2">Scieżka z dużymi literami</label><br>
-    <input type="text" id="sciezka2" name="sciezka2" placeholder="C:\Windows\temp"><br><br>
+    <input type="text" id="sciezka2" name="sciezka2" placeholder="C:\Windows\temp" pattern="[A-Z]+:\\[A-Za-z]+\\[A-Za-z]+"><br><br>
 
     <label for="sciezka_plik">Scieżka do pliku</label><br>
     <input type="text" id="sciezka_plik" name="sciezka_plik" placeholder="/etc/hosts" pattern="^(/[^/ ]*)+/?$" required><br><br>
