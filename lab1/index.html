@@ -7,9 +7,9 @@
 
 
 <body>
-<form>
+
     <label for="email">adres email</label><br>
-    <input id="email" name="email" placeholder="michal@gmail.com" type="email"><br><br>
+    <input id="email" name="email" placeholder="michal@gmail.com" ><br><br>
 
     <label for="kod">kod pocztowy</label><br>
     <input type="text" id="kod" name="kod" placeholder="90-123"><br><br>
@@ -24,7 +24,7 @@
     <input type="text" id="ipv4" name="ipv4" placeholder="192.168.10.10"><br><br>
 
     <label for="website">strona www</label><br>
-    <input type="text" id="website" name="website" placeholder="www.google.com"><br><br>
+    <input id="website" name="website" placeholder="www.google.com" type="url" required><br><br>
 
     <label for="sciezka">Scieżka</label><br>
     <input type="text" id="sciezka" name="sciezka" placeholder="C:\windows\temp"><br><br>
@@ -37,6 +37,9 @@
 
     <label for="ipv6">adres ipv6</label><br>
     <input type="text" id="ipv6" name="ipv6" placeholder="2001:0db8:0000:0000:0000:0000:1428:57ab"><br><br>
+
+    <button>Submit</button>
+
 </form>
 </body>
 </html>
