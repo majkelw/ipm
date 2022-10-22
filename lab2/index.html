@@ -59,7 +59,7 @@
     <input id="website" name="website" placeholder="https://www.google.com/" type="url" required><br><br>
 
     <label for="path">ścieżka</label><br>
-    <input type="text" id="path" name="path" placeholder="C:\windows\temp" pattern="^[a-zA-Z]:\\([a-z]*\\?)*$"
+    <input type="text" id="path" name="path" placeholder="C:\windows\temp" pattern="^[a-zA-Z]:\\([a-z]*\\?)([a-z]*\\?){1,}$"
         required><br><br>
 
     <label for="path2">ścieżka z dużymi literami</label><br>
@@ -67,7 +67,8 @@
         required><br><br>
 
     <label for="filepath">ścieżka do pliku</label><br>
-    <input type="text" id="filepath" name="filepath" placeholder="/etc/hosts" pattern="^(/[^/ ]*)+/?$" required><br><br>
+    <input type="text" id="filepath" name="filepath" placeholder="/etc/hosts" pattern="^/[A-Za-z0-9]+(/[A-Za-z0-9]*){1,}$"
+        required><br><br>
 
     <label for="ipv6">adres ipv6</label><br>
     <input type="text" id="ipv6" name="ipv6" placeholder="2006:0db4:81e3:0000:0000:8a2e:0234:1678"
@@ -80,15 +81,15 @@
     <input id="date" name="date" type="date" required><br><br>
 
     <label for="date2">data z możliwością wyboru tylko pn-pt</label><br>
-    <input id="date2" name="date2" type="date" ><br><br>
+    <input id="date2" name="date2" type="date"><br><br>
 
     <label for="hour">godzina format 24h</label><br>
-    <input id="hour" name="hour" type="time" ><br><br> 
+    <input id="hour" name="hour" type="time"><br><br>
 
     <label for="color">wybór koloru</label><br>
-    <input id="color" time="color" type="color"><br><br> 
+    <input id="color" time="color" type="color"><br><br>
 
-    <button onClick="fillData()">Wypełnij pola</button>
+    <button onClick="fillData()">Dane losowe</button>
 
 </body>
 
