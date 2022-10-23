@@ -59,11 +59,11 @@
     <input id="website" name="website" placeholder="https://www.google.com/" type="url" required><br><br>
 
     <label for="path">ścieżka</label><br>
-    <input type="text" id="path" name="path" placeholder="C:\windows\temp" pattern="^[a-zA-Z]:\\([a-z]*\\?)([a-z]*\\?){1,}$"
+    <input type="text" id="path" name="path" placeholder="C:\windows\temp" pattern="^[a-zA-Z]:(\\[a-z]*){2,}$"
         required><br><br>
 
     <label for="path2">ścieżka z dużymi literami</label><br>
-    <input type="text" id="path2" name="path2" placeholder="C:\Windows\temp" pattern="^[A-Za-z]:\\([A-Za-z]*\\?)*$"
+    <input type="text" id="path2" name="path2" placeholder="C:\Windows\temp" pattern="^[A-Za-z]:(\\[A-Za-z]*){2,}$"
         required><br><br>
 
     <label for="filepath">ścieżka do pliku</label><br>
