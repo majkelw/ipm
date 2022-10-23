@@ -23,7 +23,7 @@
             document.getElementById("nip").value = "188-890-11-12";
             document.getElementById("id_card").value = "EAB891234";
             document.getElementById("ipv4").value = "192.168.100.56";
-            document.getElementById("website").value = "https://www.google.com";
+            document.getElementById("website").value = "www.google.com";
             document.getElementById("path").value = "C:\\windows\\files";
             document.getElementById("path2").value = "C:\\Windows\\Temp";
             document.getElementById("filepath").value = "/home/michal";
@@ -56,7 +56,7 @@
         required><br><br>
 
     <label for="website">strona www</label><br>
-    <input id="website" name="website" placeholder="https://www.google.com/" type="url" required><br><br>
+    <input id="website" name="website" placeholder="www.google.com" pattern="^(w{3}).+([A-Za-z0-9]*.)*(.com|.pl)$" required><br><br>
 
     <label for="path">ścieżka</label><br>
     <input type="text" id="path" name="path" placeholder="C:\windows\temp" pattern="^[a-zA-Z]:(\\[a-z]*){2,}$"
