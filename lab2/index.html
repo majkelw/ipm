@@ -58,8 +58,9 @@
         pattern="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$" required><br><br>
 
     <label for="website">strona www</label><br>
-    <input id="website" name="website" class="check_err" placeholder="www.google.com"
-        pattern="^(w{3}).+([A-Za-z0-9]*.)*(.com|.pl)$" required><br><br>
+    <input id="website" name="website" class="check_err" placeholder="www.youtube.com"
+        pattern="^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?\/?$"
+        required><br><br>
 
     <label for="path">ścieżka</label><br>
     <input type="text" id="path" name="path" class="check_err" placeholder="C:\windows\temp"
@@ -91,7 +92,8 @@
     <input id="hour" name="hour" type="time"><br><br>
 
     <label for="hour2">godzina format 12h</label><br>
-    <input id="hour2" name="hour2" type="text" class="check_err" pattern="^(1[0-2]|0?[1-9]):[0-5][0-9] (AM|PM)$" placeholder="3:30 PM"><br><br>
+    <input id="hour2" name="hour2" type="text" class="check_err" pattern="^(1[0-2]|0?[1-9]):[0-5][0-9] (AM|PM)$"
+        placeholder="3:30 PM"><br><br>
 
     <label for="color">wybór koloru</label><br>
     <input id="color" time="color" type="color"><br><br>
