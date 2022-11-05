@@ -5,14 +5,27 @@
     <meta charset="UTF-8">
 </head>
 
+
+<script>
+    var currentElement;
+    function dropIt(e) {
+        e.target.parentNode.insertBefore(currentElement, e.target);
+    }
+
+    function dragIt(e) {
+
+        currentElement = e.target;
+    }
+
+</script>
+
 <body>
     <ol>
-        <li draggable="true"><input type="text" value="test1"></li>
-        <li draggable="true"><input type="text" value="test2"></li>
-        <li draggable="true"><input type="text" value="test3"></li>
-        <li draggable="true"><input type="text" value="test4"></li>
+        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)">ss</li>
+        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)">aa</li>
+        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)">bb</li>
+        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)">cc</li>
     </ol>
-
 </body>
 
 </html>
