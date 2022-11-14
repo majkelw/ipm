@@ -7,23 +7,34 @@
 
 
 <script>
-    var currentElement;
+    var draggedElement;
     function dropIt(e) {
-        e.target.parentNode.insertBefore(currentElement, e.target);
+        element = draggedElement.previousSibling;
+        while (element) {
+            if (element === e.target) {
+                e.target.parentNode.insertBefore(draggedElement, e.target);
+                break;
+            }
+            else {
+                e.target.parentNode.insertBefore(draggedElement, e.target.nextSibling);
+                break;
+            }
+            element = element.previousSibling;
+        }
     }
 
     function dragIt(e) {
-        currentElement = e.target;
+        draggedElement = e.target;
     }
 
 </script>
 
 <body>
     <ol>
-        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)" contenteditable="true">ss</li>
-        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)" contenteditable="true">aa</li>
-        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)" contenteditable="true">bb</li>
-        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)" contenteditable="true">cc</li>
+        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)" contenteditable="true">jabłko</li>
+        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)" contenteditable="true">test</li>
+        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)" contenteditable="true">gruszka</li>
+        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)" contenteditable="true">samochód</li>
     </ol>
 </body>
 
