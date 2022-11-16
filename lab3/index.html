@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        .platform {
+        #platform {
             background-color: silver;
             height: 100%;
             width: 70%;
@@ -46,6 +46,23 @@
         draggedElement = e.target;
     }
 
+    function generateBlock() {
+        var block = document.createElement('div');
+        block.setAttribute("draggable", "true");
+        block.setAttribute("contenteditable", "true");
+        block.setAttribute("style", "width: 100px; height: 100px;");
+
+        var chars = "0123456789ABCDEF";
+        var color = "";
+
+        for (let i = 0; i < 6; i++) {
+            color += chars[Math.floor(Math.random() * 16)];
+        }
+
+        block.style.backgroundColor = "#" + color;
+        document.getElementById("platform").appendChild(block);
+    }
+
 </script>
 
 <body>
@@ -56,10 +73,8 @@
         <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)" contenteditable="true">samochód</li>
     </ol>
 
-    <div class="platform">
-        <button class="button_block_generator">Generuj klocek</button>
-        <div class="block"></div>
-
+    <div id="platform">
+        <button onclick="generateBlock()">Generuj klocek</button>
     </div>
 </body>
 
