@@ -11,15 +11,9 @@
             position: fixed;
         }
 
-        .button_block_generator {
+        #button_block_generator {
             width: 100%;
             height: 20%;
-        }
-
-        .block {
-            height: 50px;
-            width: 50px;
-            background-color: red;
         }
     </style>
 </head>
@@ -50,7 +44,7 @@
         var block = document.createElement('div');
         block.setAttribute("draggable", "true");
         block.setAttribute("contenteditable", "true");
-        block.setAttribute("style", "width: 100px; height: 100px;");
+        block.setAttribute("style", "width: 50px; height: 50px;");
 
         var chars = "0123456789ABCDEF";
         var color = "";
@@ -74,7 +68,7 @@
     </ol>
 
     <div id="platform">
-        <button onclick="generateBlock()">Generuj klocek</button>
+        <button id="button_block_generator" onclick="generateBlock()">Generuj klocek</button>
     </div>
 </body>
 
