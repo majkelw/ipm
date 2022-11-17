@@ -21,6 +21,8 @@
 
 
 <body>
+
+
     <ol class="list">
         <li class="single_element" draggable="true" contenteditable="true">jabłko</li>
         <li class="single_element" draggable="true" contenteditable="true">test</li>
@@ -28,31 +30,32 @@
         <li class="single_element" draggable="true" contenteditable="true">samochód</li>
     </ol>
 
-    <div id="platform">
+
+    <div id="platform" ondrop="handleDropBlock(event)" ondragover="handleDragOverBlock(event)">
         <button id="button_block_generator" onclick="generateBlock()">Generuj klocek</button>
 
     </div>
+
+
 </body>
 
 
 <script>
-    var focusedElement = null;
+    var draggedElement;
+
 
     function handleDragStart(e) {
-        focusedElement = this;
+        draggedElement = e.target;
         e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/html', this.innerHTML);
+        e.dataTransfer.setData('text/html', e.target.innerHTML);
     }
 
     function handleDragEnter(e) {
-        this.classList.add('over');
+        e.target.classList.add('over');
     }
 
     function handleDragOver(e) {
-        if (e.preventDefault) {
-            e.preventDefault();
-        }
-
+        e.preventDefault();
         e.dataTransfer.dropEffect = 'move';
     }
 
@@ -64,21 +67,16 @@
 
 
     function handleDragLeave(e) {
-        this.classList.remove('over');
+        e.target.classList.remove('over');
     }
 
     function handleDrop(e) {
-        if (e.stopPropagation) {
-            e.stopPropagation();
-        }
-
-        if (focusedElement != this) {
-            focusedElement.innerHTML = this.innerHTML;
-            this.innerHTML = e.dataTransfer.getData('text/html');
+        if (draggedElement != e.target) {
+            draggedElement.innerHTML = e.target.innerHTML;
+            e.target.innerHTML = e.dataTransfer.getData('text/html');
         }
 
     }
-
 
 
     var list_items = document.querySelectorAll('.list .single_element');
@@ -97,7 +95,8 @@
     function generateBlock() {
         var block = document.createElement("div");
         block.setAttribute("draggable", "true");
-        block.setAttribute("style", "width: 10%; height: 10%; display: inline-block;");
+        block.setAttribute("style", "width: 50px; height: 50px;position:fixed;");
+        block.addEventListener("dragstart", handleDragStartBlock, false);
 
 
         var chars = "0123456789ABCDEF";
@@ -109,8 +108,24 @@
 
         block.style.backgroundColor = "#" + color;
         document.getElementById("platform").appendChild(block);
+    }
 
 
+    function handleDragStartBlock(event) {
+        draggedElement = event.target;
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/html', event.target.innerHTML);
+    }
+
+
+
+    function handleDragOverBlock(event) {
+        event.preventDefault();
+    }
+
+    function handleDropBlock(event) {
+        draggedElement.style.left = event.clientX + 'px';
+        draggedElement.style.top = event.clientY + 'px';
     }
 
 
