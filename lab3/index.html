@@ -19,35 +19,85 @@
 </head>
 
 
+
+<body>
+    <ol class="list">
+        <li class="single_element" draggable="true" contenteditable="true">jabłko</li>
+        <li class="single_element" draggable="true" contenteditable="true">test</li>
+        <li class="single_element" draggable="true" contenteditable="true">gruszka</li>
+        <li class="single_element" draggable="true" contenteditable="true">samochód</li>
+    </ol>
+
+    <div id="platform">
+        <button id="button_block_generator" onclick="generateBlock()">Generuj klocek</button>
+
+    </div>
+</body>
+
+
 <script>
-    var draggedElement;
-    function dropIt(e) {
-        element = draggedElement.previousSibling;
-        while (element) {
-            if (element === e.target) {
-                e.target.parentNode.insertBefore(draggedElement, e.target);
-                break;
-            }
-            else {
-                e.target.parentNode.insertBefore(draggedElement, e.target.nextSibling);
-                break;
-            }
-            element = element.previousSibling;
-        }
+    var focusedElement = null;
+
+    function handleDragStart(e) {
+        focusedElement = this;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
     }
 
-    function dragIt(e) {
-        draggedElement = e.target;
+    function handleDragEnter(e) {
+        this.classList.add('over');
     }
+
+    function handleDragOver(e) {
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
+
+        e.dataTransfer.dropEffect = 'move';
+    }
+
+    function handleDragEnd(e) {
+        list_items.forEach(function (item) {
+            item.classList.remove('over');
+        });
+    }
+
+
+    function handleDragLeave(e) {
+        this.classList.remove('over');
+    }
+
+    function handleDrop(e) {
+        if (e.stopPropagation) {
+            e.stopPropagation();
+        }
+
+        if (focusedElement != this) {
+            focusedElement.innerHTML = this.innerHTML;
+            this.innerHTML = e.dataTransfer.getData('text/html');
+        }
+
+    }
+
+
+
+    var list_items = document.querySelectorAll('.list .single_element');
+    list_items.forEach(function (item) {
+        item.addEventListener('dragstart', handleDragStart);
+        item.addEventListener('dragenter', handleDragEnter);
+        item.addEventListener('dragleave', handleDragLeave);
+        item.addEventListener('dragend', handleDragEnd);
+        item.addEventListener('dragover', handleDragOver);
+        item.addEventListener('drop', handleDrop);
+    });
+
+
+
 
     function generateBlock() {
-
         var block = document.createElement("div");
-        block.setAttribute("ondragstart", "dragIt(event)");
-        block.setAttribute("ondragover", "dropIt(event)");
         block.setAttribute("draggable", "true");
-
-        block.setAttribute("style", "width: 50px; height: 50px;");
+        block.setAttribute("style", "width: 10%; height: 10%; display: inline-block;");
 
 
         var chars = "0123456789ABCDEF";
@@ -59,22 +109,12 @@
 
         block.style.backgroundColor = "#" + color;
         document.getElementById("platform").appendChild(block);
+
+
     }
 
+
+
 </script>
-
-<body>
-    <ol>
-        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)" contenteditable="true">jabłko</li>
-        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)" contenteditable="true">test</li>
-        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)" contenteditable="true">gruszka</li>
-        <li draggable="true" ondragover="dropIt(event)" ondragstart="dragIt(event)" contenteditable="true">samochód</li>
-    </ol>
-
-    <div id="platform">
-        <button id="button_block_generator" onclick="generateBlock()">Generuj klocek</button>
-        <ul id="block_list"></ul>
-    </div>
-</body>
 
 </html>
