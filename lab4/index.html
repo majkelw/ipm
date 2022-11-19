@@ -23,7 +23,7 @@
         request.onsuccess = function (event) {
             db = request.result;
         };
-        
+
         request.onupgradeneeded = (event) => {
             db = event.target.result;
             let store = db.createObjectStore('UserData', {
@@ -57,7 +57,21 @@
         function saveData() {
             var request = db.transaction(["UserData"], "readwrite")
                 .objectStore("UserData")
-                .add({ email: "test@test.gmail", name: "Test", age: 30 });
+                .add({
+                    email: document.getElementById("email").value,
+                    code: document.getElementById("code").value,
+                    nip: document.getElementById("nip").value,
+                    id_card: document.getElementById("id_card").value,
+                    website: document.getElementById("website").value,
+                    path2: document.getElementById("path2").value,
+                    filepath: document.getElementById("filepath").value,
+                    ipv6: document.getElementById("ipv6").value,
+                    phone: document.getElementById("phone").value,
+                    date: document.getElementById("date").value,
+                    date2: document.getElementById("date2").value,
+                    hour: document.getElementById("hour").value,
+                    hour2: document.getElementById("hour2").value,
+                });
 
             request.onsuccess = function (event) {
                 alert("Udało się dodać!");
@@ -65,6 +79,9 @@
             request.onerror = function (event) {
                 alert("Problem z dodaniem! ");
             }
+
+
+
         }
 
 
