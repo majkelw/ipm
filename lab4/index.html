@@ -29,9 +29,7 @@
             let store = db.createObjectStore('UserData', {
                 autoIncrement: true
             });
-            let index = store.createIndex('email', 'email', {
-                unique: true
-            });
+
         };
 
         function fillData() {
@@ -77,12 +75,37 @@
                 alert("Udało się dodać!");
             };
             request.onerror = function (event) {
-                alert("Problem z dodaniem! ");
+                alert("Problem z dodaniem!");
             }
 
 
 
         }
+
+        function readData() {
+            var objectStore = db.transaction("UserData").objectStore("UserData");
+            objectStore.openCursor().onsuccess = function (event) {
+                var cursor = event.target.result;
+                var str = "Użytkownik:\n"
+                if (cursor) {
+                    str = str + cursor.value.email + "\n" +
+                        cursor.value.code + "\n" +
+                        cursor.value.nip + "\n" +
+                        cursor.value.id_card + "\n" +
+                        cursor.value.website + "\n" +
+                        cursor.value.path2 + "\n" +
+                        cursor.value.filepath + "\n" +
+                        cursor.value.ipv6 + "\n" +
+                        cursor.value.phone + "\n" +
+                        cursor.value.date + "\n" +
+                        cursor.value.date2 + "\n" +
+                        cursor.value.hour + "\n" +
+                        cursor.value.hour2 + "\n\n\n";
+                }
+                cursor.continue();
+                alert(str);
+            }
+        };
 
 
     </script>
@@ -150,6 +173,7 @@
 
     <button onClick="fillData()">Dane losowe</button>
     <button onClick="saveData()">Wyślij dane</button>
+    <button onClick="readData()">Wczytaj dane z bazy</button>
 
 </body>
 
