@@ -18,11 +18,14 @@
 <body>
 
     <script>
+        var db;
         const request = indexedDB.open('database');
-
-
+        request.onsuccess = function (event) {
+            db = request.result;
+        };
+        
         request.onupgradeneeded = (event) => {
-            let db = event.target.result;
+            db = event.target.result;
             let store = db.createObjectStore('UserData', {
                 autoIncrement: true
             });
@@ -49,9 +52,21 @@
             document.getElementById("hour2").value = "4:18 PM";
         }
 
-        function sendData() {
 
+
+        function saveData() {
+            var request = db.transaction(["UserData"], "readwrite")
+                .objectStore("UserData")
+                .add({ email: "test@test.gmail", name: "Test", age: 30 });
+
+            request.onsuccess = function (event) {
+                alert("Udało się dodać!");
+            };
+            request.onerror = function (event) {
+                alert("Problem z dodaniem! ");
+            }
         }
+
 
     </script>
 
@@ -117,7 +132,7 @@
     <input id="color" time="color" type="color"><br><br>
 
     <button onClick="fillData()">Dane losowe</button>
-    <button onClick="sendData()">Wyślij dane</button>
+    <button onClick="saveData()">Wyślij dane</button>
 
 </body>
 
