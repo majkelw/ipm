@@ -12,6 +12,15 @@
         input.check_err:not(:focus):not(:placeholder-shown):valid {
             border-color: green;
         }
+
+        #container {
+            display: flex;
+        }
+
+        .box {
+            width: 50%;
+            height: 100px;
+        }
     </style>
 </head>
 
@@ -83,98 +92,111 @@
         }
 
         function readData() {
+            const parent = document.getElementById("block")
+            while (parent.firstChild) {
+                parent.firstChild.remove()
+            }
+
             var objectStore = db.transaction("UserData").objectStore("UserData");
             objectStore.openCursor().onsuccess = function (event) {
-                var cursor = event.target.result;
-                var str = "Użytkownik:\n"
-                if (cursor) {
-                    str = str + cursor.value.email + "\n" +
-                        cursor.value.code + "\n" +
-                        cursor.value.nip + "\n" +
-                        cursor.value.id_card + "\n" +
-                        cursor.value.website + "\n" +
-                        cursor.value.path2 + "\n" +
-                        cursor.value.filepath + "\n" +
-                        cursor.value.ipv6 + "\n" +
-                        cursor.value.phone + "\n" +
-                        cursor.value.date + "\n" +
-                        cursor.value.date2 + "\n" +
-                        cursor.value.hour + "\n" +
-                        cursor.value.hour2 + "\n\n\n";
+                var res = event.target.result;
+                if (res) {
+                    results = [res.value.email, res.value.code, res.value.nip, res.value.id_card, res.value.website,
+                    res.value.path2, res.value.filepath, res.value.ipv6, res.value.phone, res.value.date, res.value.date2,
+                    res.value.hour, res.value.hour2];
+
+                    for (var i = 0; i < results.length; i++) {
+                        var el = document.createElement("p");
+                        el.innerText = results[i];
+                        document.getElementById("block").appendChild(el);
+                    }
+
                 }
-                cursor.continue();
-                alert(str);
+                res.continue();
+
             }
         };
 
 
     </script>
 
+    <div id="container">
+        <div id="box">
+            <label for="email">adres email</label><br>
+            <input id="email" name="email" class="check_err" placeholder="michal@gmail.com" type="email"
+                required><br><br>
 
-    <label for="email">adres email</label><br>
-    <input id="email" name="email" class="check_err" placeholder="michal@gmail.com" type="email" required><br><br>
+            <label for="code">kod pocztowy</label><br>
+            <input type="text" id="code" name="code" class="check_err" placeholder="90-123"
+                pattern="^[0-9]{2}-[0-9]{3}$" required><br><br>
 
-    <label for="code">kod pocztowy</label><br>
-    <input type="text" id="code" name="code" class="check_err" placeholder="90-123" pattern="^[0-9]{2}-[0-9]{3}$"
-        required><br><br>
+            <label for="nip">nip</label><br>
+            <input type="text" id="nip" name="nip" class="check_err" placeholder="123-456-78-19"
+                pattern="^[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}$" required><br><br>
 
-    <label for="nip">nip</label><br>
-    <input type="text" id="nip" name="nip" class="check_err" placeholder="123-456-78-19"
-        pattern="^[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}$" required><br><br>
+            <label for="id_card">numer dowodu</label><br>
+            <input type="text" id="id_card" name="id_card" class="check_err" placeholder="ABC123456"
+                pattern="^[A-Z]{3}[0-9]{6}$" required><br><br>
 
-    <label for="id_card">numer dowodu</label><br>
-    <input type="text" id="id_card" name="id_card" class="check_err" placeholder="ABC123456"
-        pattern="^[A-Z]{3}[0-9]{6}$" required><br><br>
+            <label for="ipv4">adres ipv4</label><br>
+            <input type="text" id="ipv4" name="ipv4" class="check_err" placeholder="192.168.100.26"
+                pattern="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$" required><br><br>
 
-    <label for="ipv4">adres ipv4</label><br>
-    <input type="text" id="ipv4" name="ipv4" class="check_err" placeholder="192.168.100.26"
-        pattern="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$" required><br><br>
+            <label for="website">strona www</label><br>
+            <input id="website" name="website" class="check_err" placeholder="www.youtube.com"
+                pattern="^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?\/?$"
+                required><br><br>
 
-    <label for="website">strona www</label><br>
-    <input id="website" name="website" class="check_err" placeholder="www.youtube.com"
-        pattern="^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?\/?$"
-        required><br><br>
+            <label for="path">ścieżka</label><br>
+            <input type="text" id="path" name="path" class="check_err" placeholder="C:\windows\temp"
+                pattern="^[a-zA-Z]:(\\[a-z]*){2,}$" required><br><br>
 
-    <label for="path">ścieżka</label><br>
-    <input type="text" id="path" name="path" class="check_err" placeholder="C:\windows\temp"
-        pattern="^[a-zA-Z]:(\\[a-z]*){2,}$" required><br><br>
+            <label for="path2">ścieżka z dużymi literami</label><br>
+            <input type="text" id="path2" name="path2" class="check_err" placeholder="C:\Windows\temp"
+                pattern="^[A-Za-z]:(\\[A-Za-z]*){2,}$" required><br><br>
 
-    <label for="path2">ścieżka z dużymi literami</label><br>
-    <input type="text" id="path2" name="path2" class="check_err" placeholder="C:\Windows\temp"
-        pattern="^[A-Za-z]:(\\[A-Za-z]*){2,}$" required><br><br>
+            <label for="filepath">ścieżka do pliku</label><br>
+            <input type="text" id="filepath" name="filepath" class="check_err" placeholder="/etc/hosts"
+                pattern="^/[A-Za-z0-9]+(/[A-Za-z0-9]*){1,}$" required><br><br>
 
-    <label for="filepath">ścieżka do pliku</label><br>
-    <input type="text" id="filepath" name="filepath" class="check_err" placeholder="/etc/hosts"
-        pattern="^/[A-Za-z0-9]+(/[A-Za-z0-9]*){1,}$" required><br><br>
+            <label for="ipv6">adres ipv6</label><br>
+            <input type="text" id="ipv6" name="ipv6" class="check_err"
+                placeholder="2006:0db4:81e3:0000:0000:8a2e:0234:1678" pattern="^([a-z0-9]{4}:){7}([a-z0-9]{4})$"
+                required><br><br>
 
-    <label for="ipv6">adres ipv6</label><br>
-    <input type="text" id="ipv6" name="ipv6" class="check_err" placeholder="2006:0db4:81e3:0000:0000:8a2e:0234:1678"
-        pattern="^([a-z0-9]{4}:){7}([a-z0-9]{4})$" required><br><br>
+            <label for="phone">numer telefonu</label><br>
+            <input id="phone" name="phone" class="check_err" placeholder="567810344" type="tel" pattern="^[0-9]{9}$"
+                required><br><br>
 
-    <label for="phone">numer telefonu</label><br>
-    <input id="phone" name="phone" class="check_err" placeholder="567810344" type="tel" pattern="^[0-9]{9}$"
-        required><br><br>
+            <label for="date">data</label><br>
+            <input id="date" name="date" type="date" required><br><br>
 
-    <label for="date">data</label><br>
-    <input id="date" name="date" type="date" required><br><br>
+            <label for="date2">data z możliwością wyboru tylko pn-pt</label><br>
+            <input id="date2" name="date2" type="date"><br><br>
 
-    <label for="date2">data z możliwością wyboru tylko pn-pt</label><br>
-    <input id="date2" name="date2" type="date"><br><br>
+            <label for="hour">godzina format 24h</label><br>
+            <input id="hour" name="hour" type="time"><br><br>
 
-    <label for="hour">godzina format 24h</label><br>
-    <input id="hour" name="hour" type="time"><br><br>
+            <label for="hour2">godzina format 12h</label><br>
+            <input id="hour2" name="hour2" type="text" class="check_err" pattern="^(1[0-2]|0?[1-9]):[0-5][0-9] (AM|PM)$"
+                placeholder="3:30 PM"><br><br>
 
-    <label for="hour2">godzina format 12h</label><br>
-    <input id="hour2" name="hour2" type="text" class="check_err" pattern="^(1[0-2]|0?[1-9]):[0-5][0-9] (AM|PM)$"
-        placeholder="3:30 PM"><br><br>
+            <label for="color">wybór koloru</label><br>
+            <input id="color" time="color" type="color"><br><br>
 
-    <label for="color">wybór koloru</label><br>
-    <input id="color" time="color" type="color"><br><br>
+            <button onClick="fillData()">Dane losowe</button>
+            <button onClick="saveData()">Wyślij dane</button>
+        </div>
 
-    <button onClick="fillData()">Dane losowe</button>
-    <button onClick="saveData()">Wyślij dane</button>
-    <button onClick="readData()">Wczytaj dane z bazy</button>
+        <div id="box">
+            <button onClick="readData()">Wczytaj dane z bazy</button>
+            <div id="block">
 
+            </div>
+
+
+        </div>
+    </div>
 </body>
 
 </html>
