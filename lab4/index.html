@@ -21,6 +21,12 @@
             width: 50%;
             height: 100px;
         }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
     </style>
 </head>
 
@@ -92,28 +98,42 @@
         }
 
         function readData() {
-            const parent = document.getElementById("block")
+            const parent = document.getElementById("block");
             while (parent.firstChild) {
-                parent.firstChild.remove()
+                parent.firstChild.remove();
             }
 
+            var table = document.createElement("table");
+            var tr = document.createElement("tr");
+            var header = ["email", "code", "nip", "id_card", "website", "path2", "filepath", "ipv6",
+                "phone", "date", "date2", "hour", "hour2"];
+
+            for (var i = 0; i < header.length; i++) {
+                var th = document.createElement('th');
+                var text = document.createTextNode(header[i]);
+                th.appendChild(text);
+                tr.appendChild(th);
+            }
+            table.appendChild(tr);
             var objectStore = db.transaction("UserData").objectStore("UserData");
             objectStore.openCursor().onsuccess = function (event) {
                 var res = event.target.result;
                 if (res) {
+
                     results = [res.value.email, res.value.code, res.value.nip, res.value.id_card, res.value.website,
                     res.value.path2, res.value.filepath, res.value.ipv6, res.value.phone, res.value.date, res.value.date2,
                     res.value.hour, res.value.hour2];
-
+                    var tr = document.createElement('tr');
                     for (var i = 0; i < results.length; i++) {
-                        var el = document.createElement("p");
-                        el.innerText = results[i];
-                        document.getElementById("block").appendChild(el);
+                        var td1 = document.createElement('td');
+                        var text1 = document.createTextNode(results[i]);
+                        td1.appendChild(text1);
+                        tr.appendChild(td1);
                     }
-
+                    table.appendChild(tr);
                 }
                 res.continue();
-
+                parent.appendChild(table);
             }
         };
 
@@ -191,7 +211,6 @@
         <div id="box">
             <button onClick="readData()">Wczytaj dane z bazy</button>
             <div id="block">
-
             </div>
 
 
