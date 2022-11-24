@@ -13,19 +13,14 @@
             border-color: green;
         }
 
-        #container {
-            display: flex;
-        }
-
-        .box {
-            width: 50%;
-            height: 100px;
-        }
-
         table,
         th,
         td {
             border: 1px solid black;
+        }
+
+        td {
+            padding: 5px;
         }
     </style>
 </head>
@@ -75,7 +70,9 @@
                     code: document.getElementById("code").value,
                     nip: document.getElementById("nip").value,
                     id_card: document.getElementById("id_card").value,
+                    ipv4: document.getElementById("ipv4").value,
                     website: document.getElementById("website").value,
+                    path: document.getElementById("path").value,
                     path2: document.getElementById("path2").value,
                     filepath: document.getElementById("filepath").value,
                     ipv6: document.getElementById("ipv6").value,
@@ -87,14 +84,21 @@
                 });
 
             request.onsuccess = function (event) {
-                alert("Udało się dodać!");
+                alert("Dodano!");
             };
             request.onerror = function (event) {
-                alert("Problem z dodaniem!");
+                alert("Wystąpił problem z dodaniem!");
             }
 
 
 
+        }
+
+        function hide() {
+            const parent = document.getElementById("block");
+            while (parent.firstChild) {
+                parent.firstChild.remove();
+            }
         }
 
         function readData() {
@@ -105,8 +109,8 @@
 
             var table = document.createElement("table");
             var tr = document.createElement("tr");
-            var header = ["email", "code", "nip", "id_card", "website", "path2", "filepath", "ipv6",
-                "phone", "date", "date2", "hour", "hour2"];
+            var header = ["email", "kod", "NIP", "nr dowodu", "ipv4", "adres strony", "ścieżka",
+                "ścieżka duże litery", "ścieżka do pliku", "ipv6", "nr telefonu", "data", "data pn-pt", "godz 24h", "godz 12h"];
 
             for (var i = 0; i < header.length; i++) {
                 var th = document.createElement('th');
@@ -119,9 +123,8 @@
             objectStore.openCursor().onsuccess = function (event) {
                 var res = event.target.result;
                 if (res) {
-
-                    results = [res.value.email, res.value.code, res.value.nip, res.value.id_card, res.value.website,
-                    res.value.path2, res.value.filepath, res.value.ipv6, res.value.phone, res.value.date, res.value.date2,
+                    results = [res.value.email, res.value.code, res.value.nip, res.value.id_card, res.value.ipv4, res.value.website,
+                    res.value.path, res.value.path2, res.value.filepath, res.value.ipv6, res.value.phone, res.value.date, res.value.date2,
                     res.value.hour, res.value.hour2];
                     var tr = document.createElement('tr');
                     for (var i = 0; i < results.length; i++) {
@@ -140,82 +143,77 @@
 
     </script>
 
-    <div id="container">
-        <div id="box">
-            <label for="email">adres email</label><br>
-            <input id="email" name="email" class="check_err" placeholder="michal@gmail.com" type="email"
-                required><br><br>
 
-            <label for="code">kod pocztowy</label><br>
-            <input type="text" id="code" name="code" class="check_err" placeholder="90-123"
-                pattern="^[0-9]{2}-[0-9]{3}$" required><br><br>
+    <button onClick="readData()">Wczytaj dane z bazy</button>
+    <button onClick="hide()">Ukryj</button>
 
-            <label for="nip">nip</label><br>
-            <input type="text" id="nip" name="nip" class="check_err" placeholder="123-456-78-19"
-                pattern="^[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}$" required><br><br>
-
-            <label for="id_card">numer dowodu</label><br>
-            <input type="text" id="id_card" name="id_card" class="check_err" placeholder="ABC123456"
-                pattern="^[A-Z]{3}[0-9]{6}$" required><br><br>
-
-            <label for="ipv4">adres ipv4</label><br>
-            <input type="text" id="ipv4" name="ipv4" class="check_err" placeholder="192.168.100.26"
-                pattern="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$" required><br><br>
-
-            <label for="website">strona www</label><br>
-            <input id="website" name="website" class="check_err" placeholder="www.youtube.com"
-                pattern="^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?\/?$"
-                required><br><br>
-
-            <label for="path">ścieżka</label><br>
-            <input type="text" id="path" name="path" class="check_err" placeholder="C:\windows\temp"
-                pattern="^[a-zA-Z]:(\\[a-z]*){2,}$" required><br><br>
-
-            <label for="path2">ścieżka z dużymi literami</label><br>
-            <input type="text" id="path2" name="path2" class="check_err" placeholder="C:\Windows\temp"
-                pattern="^[A-Za-z]:(\\[A-Za-z]*){2,}$" required><br><br>
-
-            <label for="filepath">ścieżka do pliku</label><br>
-            <input type="text" id="filepath" name="filepath" class="check_err" placeholder="/etc/hosts"
-                pattern="^/[A-Za-z0-9]+(/[A-Za-z0-9]*){1,}$" required><br><br>
-
-            <label for="ipv6">adres ipv6</label><br>
-            <input type="text" id="ipv6" name="ipv6" class="check_err"
-                placeholder="2006:0db4:81e3:0000:0000:8a2e:0234:1678" pattern="^([a-z0-9]{4}:){7}([a-z0-9]{4})$"
-                required><br><br>
-
-            <label for="phone">numer telefonu</label><br>
-            <input id="phone" name="phone" class="check_err" placeholder="567810344" type="tel" pattern="^[0-9]{9}$"
-                required><br><br>
-
-            <label for="date">data</label><br>
-            <input id="date" name="date" type="date" required><br><br>
-
-            <label for="date2">data z możliwością wyboru tylko pn-pt</label><br>
-            <input id="date2" name="date2" type="date"><br><br>
-
-            <label for="hour">godzina format 24h</label><br>
-            <input id="hour" name="hour" type="time"><br><br>
-
-            <label for="hour2">godzina format 12h</label><br>
-            <input id="hour2" name="hour2" type="text" class="check_err" pattern="^(1[0-2]|0?[1-9]):[0-5][0-9] (AM|PM)$"
-                placeholder="3:30 PM"><br><br>
-
-            <label for="color">wybór koloru</label><br>
-            <input id="color" time="color" type="color"><br><br>
-
-            <button onClick="fillData()">Dane losowe</button>
-            <button onClick="saveData()">Wyślij dane</button>
-        </div>
-
-        <div id="box">
-            <button onClick="readData()">Wczytaj dane z bazy</button>
-            <div id="block">
-            </div>
-
-
-        </div>
+    <div id="block">
     </div>
+
+    <h3>Formularz</h3>
+    <label for="email">adres email</label><br>
+    <input id="email" name="email" class="check_err" placeholder="michal@gmail.com" type="email" required><br><br>
+
+    <label for="code">kod pocztowy</label><br>
+    <input type="text" id="code" name="code" class="check_err" placeholder="90-123" pattern="^[0-9]{2}-[0-9]{3}$"
+        required><br><br>
+
+    <label for="nip">nip</label><br>
+    <input type="text" id="nip" name="nip" class="check_err" placeholder="123-456-78-19"
+        pattern="^[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}$" required><br><br>
+
+    <label for="id_card">numer dowodu</label><br>
+    <input type="text" id="id_card" name="id_card" class="check_err" placeholder="ABC123456"
+        pattern="^[A-Z]{3}[0-9]{6}$" required><br><br>
+
+    <label for="ipv4">adres ipv4</label><br>
+    <input type="text" id="ipv4" name="ipv4" class="check_err" placeholder="192.168.100.26"
+        pattern="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$" required><br><br>
+
+    <label for="website">strona www</label><br>
+    <input id="website" name="website" class="check_err" placeholder="www.youtube.com"
+        pattern="^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?\/?$"
+        required><br><br>
+
+    <label for="path">ścieżka</label><br>
+    <input type="text" id="path" name="path" class="check_err" placeholder="C:\windows\temp"
+        pattern="^[a-zA-Z]:(\\[a-z]*){2,}$" required><br><br>
+
+    <label for="path2">ścieżka z dużymi literami</label><br>
+    <input type="text" id="path2" name="path2" class="check_err" placeholder="C:\Windows\temp"
+        pattern="^[A-Za-z]:(\\[A-Za-z]*){2,}$" required><br><br>
+
+    <label for="filepath">ścieżka do pliku</label><br>
+    <input type="text" id="filepath" name="filepath" class="check_err" placeholder="/etc/hosts"
+        pattern="^/[A-Za-z0-9]+(/[A-Za-z0-9]*){1,}$" required><br><br>
+
+    <label for="ipv6">adres ipv6</label><br>
+    <input type="text" id="ipv6" name="ipv6" class="check_err" placeholder="2006:0db4:81e3:0000:0000:8a2e:0234:1678"
+        pattern="^([a-z0-9]{4}:){7}([a-z0-9]{4})$" required><br><br>
+
+    <label for="phone">numer telefonu</label><br>
+    <input id="phone" name="phone" class="check_err" placeholder="567810344" type="tel" pattern="^[0-9]{9}$"
+        required><br><br>
+
+    <label for="date">data</label><br>
+    <input id="date" name="date" type="date" required><br><br>
+
+    <label for="date2">data z możliwością wyboru tylko pn-pt</label><br>
+    <input id="date2" name="date2" type="date"><br><br>
+
+    <label for="hour">godzina format 24h</label><br>
+    <input id="hour" name="hour" type="time"><br><br>
+
+    <label for="hour2">godzina format 12h</label><br>
+    <input id="hour2" name="hour2" type="text" class="check_err" pattern="^(1[0-2]|0?[1-9]):[0-5][0-9] (AM|PM)$"
+        placeholder="3:30 PM"><br><br>
+
+    <label for="color">wybór koloru</label><br>
+    <input id="color" time="color" type="color"><br><br>
+
+    <button onClick="fillData()">Dane losowe</button>
+    <button onClick="saveData()">Wyślij</button>
+
 </body>
 
 </html>
