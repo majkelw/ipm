@@ -97,6 +97,15 @@
             }
         }
 
+        function removeData() {
+            db.transaction("UserData", "readwrite").objectStore("UserData").clear();
+            const parent = document.getElementById("block");
+            while (parent.firstChild) {
+                parent.firstChild.remove();
+            }
+        }
+
+
         function readData() {
             const parent = document.getElementById("block");
             while (parent.firstChild) {
@@ -139,6 +148,7 @@
 
     <button onClick="readData()">Wczytaj dane z bazy</button>
     <button onClick="hide()">Ukryj</button>
+    <button onClick="removeData()">Usuń wszystkich</button>
 
     <div id="block">
     </div>
