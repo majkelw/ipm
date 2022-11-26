@@ -131,11 +131,11 @@
                     var tr = document.createElement('tr');
                     tr.setAttribute("id", "row")
                     for (var i = 0; i < results.length; i++) {
-                        var td1 = document.createElement('td');
-                        td1.setAttribute("contenteditable", "true");
-                        var text1 = document.createTextNode(results[i]);
-                        td1.appendChild(text1);
-                        tr.appendChild(td1);
+                        var td = document.createElement('td');
+                        td.setAttribute("contenteditable", "true");
+                        var text = document.createTextNode(results[i]);
+                        td.appendChild(text);
+                        tr.appendChild(td);
 
                     }
 
