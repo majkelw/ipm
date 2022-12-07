@@ -37,9 +37,7 @@
 
         request.onupgradeneeded = (event) => {
             db = event.target.result;
-            let store = db.createObjectStore('UserData', {
-                autoIncrement: true
-            });
+            let store = db.createObjectStore('client', { keyPath: "email", autoIncrement: true });
 
         };
 
@@ -68,8 +66,8 @@
 
 
         function saveData() {
-            var request = db.transaction(["UserData"], "readwrite")
-                .objectStore("UserData")
+            var request = db.transaction(["client"], "readwrite")
+                .objectStore("client")
                 .add({
                     email: document.getElementById("email").value,
                     code: document.getElementById("code").value,
@@ -86,11 +84,9 @@
                 alert("Wystąpił problem z dodaniem!");
             }
 
-
-
         }
 
-        function hide() {
+        function hideData() {
             const parent = document.getElementById("block");
             while (parent.firstChild) {
                 parent.firstChild.remove();
@@ -98,7 +94,7 @@
         }
 
         function removeData() {
-            db.transaction("UserData", "readwrite").objectStore("UserData").clear();
+            db.transaction("client", "readwrite").objectStore("client").clear();
             const parent = document.getElementById("block");
             while (parent.firstChild) {
                 parent.firstChild.remove();
@@ -106,7 +102,24 @@
         }
 
 
+        function updateClient(email, key, value) {
+            const objectStore = db.transaction("client", "readwrite").objectStore("client");
+
+            const request = objectStore.get(email);
+
+            request.onsuccess = () => {
+                const client = request.result;
+                client[key] = value;
+                const updateRequest = objectStore.put(client);
+                updateRequest.onsuccess = () => {
+
+
+                }
+            }
+        }
+
         function readData() {
+            users = []
             const parent = document.getElementById("block");
             while (parent.firstChild) {
                 parent.firstChild.remove();
@@ -114,7 +127,7 @@
 
             var table = document.createElement("table");
             var tr = document.createElement("tr");
-            var header = ["email", "kod", "NIP", "nr dowodu", "nr telefonu"];
+            var header = ["email", "code", "nip", "id_card", "phone"];
 
             for (var i = 0; i < header.length; i++) {
                 var th = document.createElement('th');
@@ -123,26 +136,31 @@
                 tr.appendChild(th);
             }
             table.appendChild(tr);
-            var objectStore = db.transaction("UserData").objectStore("UserData");
+            var objectStore = db.transaction("client").objectStore("client");
             objectStore.openCursor().onsuccess = function (event) {
                 var res = event.target.result;
                 if (res) {
                     results = [res.value.email, res.value.code, res.value.nip, res.value.id_card, res.value.phone];
                     var tr = document.createElement('tr');
-                    tr.setAttribute("id", "row")
                     for (var i = 0; i < results.length; i++) {
                         var td = document.createElement('td');
                         td.setAttribute("contenteditable", "true");
                         var text = document.createTextNode(results[i]);
                         td.appendChild(text);
                         tr.appendChild(td);
+                        td.addEventListener('focusout', (event2) => {
+                            updateClient(users[td.parentNode.rowIndex - 1].email,
+                                document.getElementsByTagName("th")[event2.target.cellIndex].innerHTML,
+                                event2.target.innerText);
 
+                        });
                     }
-
+                    users.push(res.value);
                     table.appendChild(tr);
-
                 }
-                res.continue();
+                if (res != null) {
+                    res.continue();
+                }
                 parent.appendChild(table);
             }
         };
@@ -152,7 +170,7 @@
 
 
     <button onClick="readData()">Wczytaj dane z bazy</button>
-    <button onClick="hide()">Ukryj</button>
+    <button onClick="hideData()">Ukryj</button>
     <button onClick="removeData()">Usuń wszystkich</button>
 
     <div id="block">
