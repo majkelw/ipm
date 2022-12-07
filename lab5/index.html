@@ -37,7 +37,7 @@
 
         request.onupgradeneeded = (event) => {
             db = event.target.result;
-            let store = db.createObjectStore('client', { keyPath: "email", autoIncrement: true });
+            let store = db.createObjectStore('client', { autoIncrement: true });
 
         };
 
@@ -102,24 +102,18 @@
         }
 
 
-        function updateClient(email, key, value) {
+        function updateClient(key, fieldName, value) {
             const objectStore = db.transaction("client", "readwrite").objectStore("client");
-
-            const request = objectStore.get(email);
-
+            const request = objectStore.get(key);
             request.onsuccess = () => {
                 const client = request.result;
-                client[key] = value;
-                const updateRequest = objectStore.put(client);
-                updateRequest.onsuccess = () => {
-
-
-                }
+                client[fieldName] = value;
+                const updateRequest = objectStore.put(client, key);
             }
         }
 
         function readData() {
-            users = []
+            keys = []
             const parent = document.getElementById("block");
             while (parent.firstChild) {
                 parent.firstChild.remove();
@@ -149,13 +143,12 @@
                         td.appendChild(text);
                         tr.appendChild(td);
                         td.addEventListener('focusout', (event2) => {
-                            updateClient(users[td.parentNode.rowIndex - 1].email,
+                            updateClient(keys[td.parentNode.rowIndex - 1],
                                 document.getElementsByTagName("th")[event2.target.cellIndex].innerHTML,
                                 event2.target.innerText);
-
                         });
                     }
-                    users.push(res.value);
+                    keys.push(res.key);
                     table.appendChild(tr);
                 }
                 if (res != null) {
