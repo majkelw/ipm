@@ -112,6 +112,11 @@
             }
         }
 
+        function deleteClient(key) {
+            const objectStore = db.transaction("client", "readwrite").objectStore("client");
+            objectStore.delete(key);
+        }
+
         function readData() {
             keys = []
             const parent = document.getElementById("block");
@@ -121,7 +126,7 @@
 
             var table = document.createElement("table");
             var tr = document.createElement("tr");
-            var header = ["email", "code", "nip", "id_card", "phone"];
+            var header = ["email", "code", "nip", "id_card", "phone", "action"];
 
             for (var i = 0; i < header.length; i++) {
                 var th = document.createElement('th');
@@ -148,6 +153,15 @@
                                 event2.target.innerText);
                         });
                     }
+                    var td = document.createElement('td');
+                    var button = document.createElement('button');
+                    button.appendChild(document.createTextNode("Usuń"));
+                    td.appendChild(button);
+                    tr.appendChild(td);
+                    button.addEventListener('click', (event2) => {
+                        deleteClient(keys[td.parentNode.rowIndex - 1]);
+                        table.deleteRow(td.parentNode.rowIndex);
+                    });
                     keys.push(res.key);
                     table.appendChild(tr);
                 }
