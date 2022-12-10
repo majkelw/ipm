@@ -39,7 +39,6 @@
         request.onupgradeneeded = (event) => {
             db = event.target.result;
             if (db.objectStoreNames.contains('UserData')) {
-                db.transaction("UserData", "readwrite").objectStore("UserData").clear();
                 db.deleteObjectStore('UserData');
             }
             if (db.objectStoreNames.contains('client')) {
