@@ -36,8 +36,11 @@
             db = event.target.result;
             if (db.objectStoreNames.contains('UserData')) {
                 db.deleteObjectStore('UserData');
-                db.deleteObjectStore('client', { autoIncrement: true });
             }
+            if (db.objectStoreNames.contains('client')) {
+                db.deleteObjectStore('client');
+            }
+
             db.createObjectStore('UserData', { autoIncrement: true });
         };
 
