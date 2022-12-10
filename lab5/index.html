@@ -43,18 +43,20 @@
 
         function fillData() {
             example_data = [
-                { email: "michal@domain.com", code: "92-113", nip: "188-890-11-12", id_card: "EAB891234", phone: "678910421" },
-                { email: "piotr@domain.com", code: "95-123", nip: "234-456-10-18", id_card: "EOM890124", phone: "620340123" },
-                { email: "kamil@dom.com", code: "94-191", nip: "212-590-45-11", id_card: "AOM871237", phone: "660710455" },
-                { email: "monika@domain.com", code: "88-120", nip: "203-450-10-40", id_card: "EBA879031", phone: "560123455" },
-                { email: "sylwia@domain.com", code: "91-290", nip: "156-410-50-11", id_card: "BAO879301", phone: "702345871" },
-                { email: "pawel@domain2.com", code: "96-123", nip: "189-109-50-19", id_card: "KAP397084", phone: "670123879" },
-                { email: "konrad@domain.com", code: "90-245", nip: "179-129-10-13", id_card: "OIU873021", phone: "671230984" },
+                { name: "Michał", surname: "Kowalski", email: "michal@domain.com", code: "92-113", nip: "188-890-11-12", id_card: "EAB891234", phone: "678910421" },
+                { name: "Piotr", surname: "Nowak", email: "piotr@domain.com", code: "95-123", nip: "234-456-10-18", id_card: "EOM890124", phone: "620340123" },
+                { name: "Kamil", surname: "Kowalski", email: "kamil@dom.com", code: "94-191", nip: "212-590-45-11", id_card: "AOM871237", phone: "660710455" },
+                { name: "Monika", surname: "Kwiatkowska", email: "monika@domain.com", code: "88-120", nip: "203-450-10-40", id_card: "EBA879031", phone: "560123455" },
+                { name: "Sylwia", surname: "Nowak", email: "sylwia@domain.com", code: "91-290", nip: "156-410-50-11", id_card: "BAO879301", phone: "702345871" },
+                { name: "Paweł", surname: "Nowak", email: "pawel@domain2.com", code: "96-123", nip: "189-109-50-19", id_card: "KAP397084", phone: "670123879" },
+                { name: "Konrad", surname: "Kwiatkowski", email: "konrad@domain.com", code: "90-245", nip: "179-129-10-13", id_card: "OIU873021", phone: "671230984" },
             ];
 
             if (counter == 6) {
                 counter = 0;
             }
+            document.getElementById("name").value = example_data[counter].name;
+            document.getElementById("surname").value = example_data[counter].surname;
             document.getElementById("email").value = example_data[counter].email;
             document.getElementById("code").value = example_data[counter].code;
             document.getElementById("nip").value = example_data[counter].nip;
@@ -69,6 +71,8 @@
             var request = db.transaction(["client"], "readwrite")
                 .objectStore("client")
                 .add({
+                    name: document.getElementById("name").value,
+                    surname: document.getElementById("surname").value,
                     email: document.getElementById("email").value,
                     code: document.getElementById("code").value,
                     nip: document.getElementById("nip").value,
@@ -130,7 +134,7 @@
 
             var table = document.createElement("table");
             var tr = document.createElement("tr");
-            var header = ["email", "code", "nip", "id_card", "phone", "action"];
+            var header = ["name", "surname", "email", "code", "nip", "id_card", "phone", "action"];
 
             for (var i = 0; i < header.length; i++) {
                 var th = document.createElement('th');
@@ -143,7 +147,7 @@
             objectStore.openCursor().onsuccess = function (event) {
                 var res = event.target.result;
                 if (res) {
-                    results = [res.value.email, res.value.code, res.value.nip, res.value.id_card, res.value.phone];
+                    results = [res.value.name, res.value.surname, res.value.email, res.value.code, res.value.nip, res.value.id_card, res.value.phone];
                     var tr = document.createElement('tr');
                     for (var i = 0; i < results.length; i++) {
                         var td = document.createElement('td');
