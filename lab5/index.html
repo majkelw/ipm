@@ -40,7 +40,7 @@
 
         request.onupgradeneeded = (event) => {
             db = event.target.result;
-            if (db.objectStoreNames.contains) {
+            if (db.objectStoreNames.contains('UserData')) {
                 db.deleteObjectStore('UserData');
             }
 
