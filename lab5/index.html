@@ -36,11 +36,11 @@
         };
 
         request.onupgradeneeded = (event) => {
-            db = event.target.result;
+            var up = event.target.result;
             if (db.objectStoreNames.contains('UserData')) {
-                db.deleteObjectStore('UserData');
+                up.deleteObjectStore('UserData');
             }
-            db.createObjectStore('client', { autoIncrement: true });
+            up.createObjectStore('client', { autoIncrement: true });
         };
 
         function fillData() {
