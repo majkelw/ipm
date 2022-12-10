@@ -31,16 +31,13 @@
         var db;
         var counter = 0;
         const request = indexedDB.open('database', 2);
-        request.onsuccess = function (event) {
-            db = request.result;
-        };
 
         request.onupgradeneeded = (event) => {
-            var up = event.target.result;
+            db = event.target.result;
             if (db.objectStoreNames.contains('UserData')) {
-                up.deleteObjectStore('UserData');
+                db.deleteObjectStore('UserData');
             }
-            up.createObjectStore('client', { autoIncrement: true });
+            db.createObjectStore('client', { autoIncrement: true });
         };
 
         function fillData() {
