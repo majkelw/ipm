@@ -31,6 +31,10 @@
         var db;
         var counter = 0;
         const request = indexedDB.open('database', 3);
+        
+        request.onsuccess = function (event) {
+            db = request.result;
+        };
 
         request.onupgradeneeded = (event) => {
             db = event.target.result;
