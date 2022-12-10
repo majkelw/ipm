@@ -123,6 +123,10 @@
             while (parent.firstChild) {
                 parent.firstChild.remove();
             }
+            var input = document.createElement("input");
+            input.setAttribute("id", "search_input");
+            input.setAttribute("placeholder", "Wyszukaj...");
+            parent.appendChild(input);
 
             var table = document.createElement("table");
             var tr = document.createElement("tr");
@@ -184,6 +188,12 @@
     </div>
 
     <h3>Formularz</h3>
+    <label for="name">Imię</label><br>
+    <input id="name" name="name" class="check_err" placeholder="Michał" type="name" required><br><br>
+
+    <label for="surname">Nazwisko</label><br>
+    <input id="surname" name="surname" class="check_err" placeholder="Kowalski" type="surname" required><br><br>
+
     <label for="email">adres email</label><br>
     <input id="email" name="email" class="check_err" placeholder="michal@gmail.com" type="email" required><br><br>
 
