@@ -30,13 +30,13 @@
     <script>
         var db;
         var counter = 0;
-        const request = indexedDB.open('database', 2);
+        const request = indexedDB.open('database', 1.1);
 
         request.onupgradeneeded = (event) => {
             db = event.target.result;
             if (db.objectStoreNames.contains('UserData')) {
                 db.deleteObjectStore('UserData');
-                db.createObjectStore('client', { autoIncrement: true });
+                db.deleteObjectStore('client', { autoIncrement: true });
             }
             db.createObjectStore('UserData', { autoIncrement: true });
         };
