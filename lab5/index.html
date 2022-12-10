@@ -39,7 +39,7 @@
         request.onupgradeneeded = (event) => {
             db = event.target.result;
             if (db.objectStoreNames.contains('UserData')) {
-                const userDataObjectStore = transaction.objectStore("UserData");
+                const userDataObjectStore = db.transaction.objectStore("UserData");
                 userDataObjectStore.clear();
                 db.deleteObjectStore('UserData');
             }
