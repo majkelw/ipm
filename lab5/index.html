@@ -30,12 +30,9 @@
     <script>
         var db;
         var counter = 0;
-        var version = 2;
         const request = indexedDB.open('database', 2);
         request.onsuccess = function (event) {
             db = request.result;
-            console.log(event.target.result.version);
-
         };
 
         request.onupgradeneeded = (event) => {
@@ -43,9 +40,7 @@
             if (db.objectStoreNames.contains('UserData')) {
                 db.deleteObjectStore('UserData');
             }
-
             db.createObjectStore('client', { autoIncrement: true });
-
         };
 
         function fillData() {
