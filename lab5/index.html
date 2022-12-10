@@ -36,8 +36,9 @@
             db = event.target.result;
             if (db.objectStoreNames.contains('UserData')) {
                 db.deleteObjectStore('UserData');
+                db.createObjectStore('client', { autoIncrement: true });
             }
-            db.createObjectStore('client', { autoIncrement: true });
+            db.createObjectStore('UserData', { autoIncrement: true });
         };
 
         function fillData() {
@@ -67,8 +68,8 @@
 
 
         function saveData() {
-            var request = db.transaction(["client"], "readwrite")
-                .objectStore("client")
+            var request = db.transaction(["UserData"], "readwrite")
+                .objectStore("UserData")
                 .add({
                     name: document.getElementById("name").value,
                     surname: document.getElementById("surname").value,
@@ -97,7 +98,7 @@
         }
 
         function removeData() {
-            db.transaction("client", "readwrite").objectStore("client").clear();
+            db.transaction("UserData", "readwrite").objectStore("UserData").clear();
             const parent = document.getElementById("block");
             while (parent.firstChild) {
                 parent.firstChild.remove();
@@ -106,7 +107,7 @@
 
 
         function updateClient(key, fieldName, value) {
-            const objectStore = db.transaction("client", "readwrite").objectStore("client");
+            const objectStore = db.transaction("UserData", "readwrite").objectStore("UserData");
             const request = objectStore.get(key);
             request.onsuccess = () => {
                 const client = request.result;
@@ -116,7 +117,7 @@
         }
 
         function deleteClient(key) {
-            const objectStore = db.transaction("client", "readwrite").objectStore("client");
+            const objectStore = db.transaction("UserData", "readwrite").objectStore("UserData");
             objectStore.delete(key);
         }
 
@@ -146,7 +147,7 @@
                 tr.appendChild(th);
             }
             table.appendChild(tr);
-            var objectStore = db.transaction("client").objectStore("client");
+            var objectStore = db.transaction("UserData").objectStore("UserData");
             objectStore.openCursor().onsuccess = function (event) {
                 var res = event.target.result;
                 if (res) {
