@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        input.check_err:not(:focus):not(:placeholder-shown):invalid {
+            border-color: red;
+        }
+
+        input.check_err:not(:focus):not(:placeholder-shown):valid {
+            border-color: green;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        td {
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script>
+        var db;
+        var counter = 0;
+        const request = indexedDB.open('database');
+        request.onsuccess = function (event) {
+            db = request.result;
+        };
+
+        request.onupgradeneeded = (event) => {
+            db = event.target.result;
+            let store = db.createObjectStore('client', { autoIncrement: true });
+
+        };
+
+        function fillData() {
+            example_data = [
+                { email: "michal@domain.com", code: "92-113", nip: "188-890-11-12", id_card: "EAB891234", phone: "678910421" },
+                { email: "piotr@domain.com", code: "95-123", nip: "234-456-10-18", id_card: "EOM890124", phone: "620340123" },
+                { email: "kamil@dom.com", code: "94-191", nip: "212-590-45-11", id_card: "AOM871237", phone: "660710455" },
+                { email: "monika@domain.com", code: "88-120", nip: "203-450-10-40", id_card: "EBA879031", phone: "560123455" },
+                { email: "sylwia@domain.com", code: "91-290", nip: "156-410-50-11", id_card: "BAO879301", phone: "702345871" },
+                { email: "pawel@domain2.com", code: "96-123", nip: "189-109-50-19", id_card: "KAP397084", phone: "670123879" },
+                { email: "konrad@domain.com", code: "90-245", nip: "179-129-10-13", id_card: "OIU873021", phone: "671230984" },
+            ];
+
+            if (counter == 6) {
+                counter = 0;
+            }
+            document.getElementById("email").value = example_data[counter].email;
+            document.getElementById("code").value = example_data[counter].code;
+            document.getElementById("nip").value = example_data[counter].nip;
+            document.getElementById("id_card").value = example_data[counter].id_card;
+            document.getElementById("phone").value = example_data[counter].phone;
+            counter++;
+        }
+
+
+
+        function saveData() {
+            var request = db.transaction(["client"], "readwrite")
+                .objectStore("client")
+                .add({
+                    email: document.getElementById("email").value,
+                    code: document.getElementById("code").value,
+                    nip: document.getElementById("nip").value,
+                    id_card: document.getElementById("id_card").value,
+                    phone: document.getElementById("phone").value,
+
+                });
+
+            request.onsuccess = function (event) {
+                alert("Dodano!");
+            };
+            request.onerror = function (event) {
+                alert("Wystąpił problem z dodaniem!");
+            }
+
+        }
+
+        function hideData() {
+            const parent = document.getElementById("block");
+            while (parent.firstChild) {
+                parent.firstChild.remove();
+            }
+        }
+
+        function removeData() {
+            db.transaction("client", "readwrite").objectStore("client").clear();
+            const parent = document.getElementById("block");
+            while (parent.firstChild) {
+                parent.firstChild.remove();
+            }
+        }
+
+
+        function updateClient(key, fieldName, value) {
+            const objectStore = db.transaction("client", "readwrite").objectStore("client");
+            const request = objectStore.get(key);
+            request.onsuccess = () => {
+                const client = request.result;
+                client[fieldName] = value;
+                const updateRequest = objectStore.put(client, key);
+            }
+        }
+
+        function deleteClient(key) {
+            const objectStore = db.transaction("client", "readwrite").objectStore("client");
+            objectStore.delete(key);
+        }
+
+        function readData() {
+            keys = []
+            const parent = document.getElementById("block");
+            while (parent.firstChild) {
+                parent.firstChild.remove();
+            }
+
+            var table = document.createElement("table");
+            var tr = document.createElement("tr");
+            var header = ["email", "code", "nip", "id_card", "phone", "action"];
+
+            for (var i = 0; i < header.length; i++) {
+                var th = document.createElement('th');
+                var text = document.createTextNode(header[i]);
+                th.appendChild(text);
+                tr.appendChild(th);
+            }
+            table.appendChild(tr);
+            var objectStore = db.transaction("client").objectStore("client");
+            objectStore.openCursor().onsuccess = function (event) {
+                var res = event.target.result;
+                if (res) {
+                    results = [res.value.email, res.value.code, res.value.nip, res.value.id_card, res.value.phone];
+                    var tr = document.createElement('tr');
+                    for (var i = 0; i < results.length; i++) {
+                        var td = document.createElement('td');
+                        td.setAttribute("contenteditable", "true");
+                        var text = document.createTextNode(results[i]);
+                        td.appendChild(text);
+                        tr.appendChild(td);
+                        td.addEventListener('focusout', (event2) => {
+                            updateClient(keys[td.parentNode.rowIndex - 1],
+                                document.getElementsByTagName("th")[event2.target.cellIndex].innerHTML,
+                                event2.target.innerText);
+                        });
+                    }
+                    var td = document.createElement('td');
+                    var button = document.createElement('button');
+                    button.appendChild(document.createTextNode("Usuń"));
+                    td.appendChild(button);
+                    tr.appendChild(td);
+                    button.addEventListener('click', (event2) => {
+                        deleteClient(keys[td.parentNode.rowIndex - 1]);
+                        table.deleteRow(td.parentNode.rowIndex);
+                    });
+                    keys.push(res.key);
+                    table.appendChild(tr);
+                }
+                if (res != null) {
+                    res.continue();
+                }
+                parent.appendChild(table);
+            }
+        };
+
+
+    </script>
+
+
+    <button onClick="readData()">Wczytaj dane z bazy</button>
+    <button onClick="hideData()">Ukryj</button>
+    <button onClick="removeData()">Usuń wszystkich</button>
+
+    <div id="block">
+    </div>
+
+    <h3>Formularz</h3>
+    <label for="email">adres email</label><br>
+    <input id="email" name="email" class="check_err" placeholder="michal@gmail.com" type="email" required><br><br>
+
+    <label for="code">kod pocztowy</label><br>
+    <input type="text" id="code" name="code" class="check_err" placeholder="90-123" pattern="^[0-9]{2}-[0-9]{3}$"
+        required><br><br>
+
+    <label for="nip">nip</label><br>
+    <input type="text" id="nip" name="nip" class="check_err" placeholder="123-456-78-19"
+        pattern="^[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}$" required><br><br>
+
+    <label for="id_card">numer dowodu</label><br>
+    <input type="text" id="id_card" name="id_card" class="check_err" placeholder="ABC123456"
+        pattern="^[A-Z]{3}[0-9]{6}$" required><br><br>
+
+
+    <label for="phone">numer telefonu</label><br>
+    <input id="phone" name="phone" class="check_err" placeholder="567810344" type="tel" pattern="^[0-9]{9}$"
+        required><br><br>
+
+    <button onClick="fillData()">Dane losowe</button>
+    <button onClick="saveData()">Wyślij</button>
+
+</body>
+
+</html>
