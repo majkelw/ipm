@@ -130,6 +130,11 @@
             var input = document.createElement("input");
             input.setAttribute("id", "search_input");
             input.setAttribute("placeholder", "Wyszukaj...");
+
+            input.addEventListener('keyup', (event2) => {
+                console.log("check");
+            });
+
             parent.appendChild(input);
 
             var table = document.createElement("table");
