@@ -31,9 +31,13 @@
         var db;
         var counter = 0;
         const request = indexedDB.open('database', 4);
-        
+
         request.onsuccess = function (event) {
             db = request.result;
+        };
+
+        request.onerror = function (event) {
+            alert("Nie można nawiązać połączenia z bazą! Przyczyną może być korzystanie z prywatnego okna przeglądarki");
         };
 
         request.onupgradeneeded = (event) => {
@@ -128,6 +132,27 @@
             objectStore.delete(key);
         }
 
+        function searchData() {
+
+            var valueOfText, i, table, tr, td, inputValue;
+
+            table = document.getElementById("table_data");
+            tr = table.getElementsByTagName("tr");
+            inputValue = document.getElementById("search_input").value.toUpperCase();
+
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    if (td.innerText.toUpperCase().indexOf(inputValue) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
         function readData() {
             keys = []
             const parent = document.getElementById("block");
@@ -137,13 +162,15 @@
             var input = document.createElement("input");
             input.setAttribute("id", "search_input");
             input.setAttribute("placeholder", "Wyszukaj...");
-
-            input.addEventListener('keyup', (event2) => {
+            input.addEventListener('keyup', (event) => {
+                searchData();
             });
-
             parent.appendChild(input);
 
             var table = document.createElement("table");
+            table.setAttribute("id", "table_data");
+
+
             var tr = document.createElement("tr");
             var header = ["name", "surname", "email", "code", "nip", "id_card", "phone", "action"];
 
@@ -189,6 +216,8 @@
                 }
                 parent.appendChild(table);
             }
+
+
         };
 
 
