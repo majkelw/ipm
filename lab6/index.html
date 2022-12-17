@@ -230,10 +230,10 @@
 
     <h2>Formularz</h2>
     <label for="name">imię</label><br>
-    <input id="name" name="name" class="check_err" placeholder="Michał" type="name" required><br>
+    <input id="name" name="name" class="check_err" placeholder="Michał" type="name" required pattern="^[A-Za-ząęłćźż]+$"><br>
 
     <label for="surname">nazwisko</label><br>
-    <input id="surname" name="surname" class="check_err" placeholder="Kowalski" type="surname" required><br>
+    <input id="surname" name="surname" class="check_err" placeholder="Kowalski" type="surname" required pattern="^[A-Za-ząęłćźżó]+$"><br>
 
     <label for="email">adres email</label><br>
     <input id="email" name="email" class="check_err" placeholder="michal@gmail.com" type="email" required><br>
