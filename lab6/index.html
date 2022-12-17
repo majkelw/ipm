@@ -92,7 +92,9 @@
 
                 });
 
-
+            request.onsuccess = function (event) {
+                readData();
+            }
             request.onerror = function (event) {
                 alert("Wystąpił problem z dodaniem!");
             }
@@ -217,15 +219,16 @@
 
         };
 
-
+        readData();
     </script>
 
 
-    <button onClick="readData()">Wczytaj dane z bazy</button>
+    <button onClick="readData()">Wczytaj dane</button>
     <button onClick="hideData()">Ukryj</button>
     <button onClick="removeData()">Usuń wszystkich</button>
 
     <div id="block">
+
     </div>
 
     <h3>Formularz</h3>
