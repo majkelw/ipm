@@ -5,6 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <style>
+        .check_err {
+            margin-bottom: 5px;
+        }
+
         input.check_err:not(:focus):not(:placeholder-shown):invalid {
             border-color: red;
         }
@@ -223,6 +227,37 @@
     </script>
 
 
+
+    <h2>Formularz</h2>
+    <label for="name">imię</label><br>
+    <input id="name" name="name" class="check_err" placeholder="Michał" type="name" required><br>
+
+    <label for="surname">nazwisko</label><br>
+    <input id="surname" name="surname" class="check_err" placeholder="Kowalski" type="surname" required><br>
+
+    <label for="email">adres email</label><br>
+    <input id="email" name="email" class="check_err" placeholder="michal@gmail.com" type="email" required><br>
+
+    <label for="code">kod pocztowy</label><br>
+    <input type="text" id="code" name="code" class="check_err" placeholder="90-123" pattern="^[0-9]{2}-[0-9]{3}$"
+        required><br>
+
+    <label for="nip">nip</label><br>
+    <input type="text" id="nip" name="nip" class="check_err" placeholder="123-456-78-19"
+        pattern="^[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}$" required><br>
+
+    <label for="id_card">numer dowodu</label><br>
+    <input type="text" id="id_card" name="id_card" class="check_err" placeholder="ABC123456"
+        pattern="^[A-Z]{3}[0-9]{6}$" required><br>
+
+
+    <label for="phone">numer telefonu</label><br>
+    <input id="phone" name="phone" class="check_err" placeholder="567810344" type="tel" pattern="^[0-9]{9}$"
+        required><br>
+
+    <button onClick="fillData()">Dane losowe</button>
+    <button onClick="saveData()">Wyślij</button>
+
     <button onClick="readData()">Wczytaj dane</button>
     <button onClick="hideData()">Ukryj</button>
     <button onClick="removeData()">Usuń wszystkich</button>
@@ -230,36 +265,6 @@
     <div id="block">
 
     </div>
-
-    <h3>Formularz</h3>
-    <label for="name">Imię</label><br>
-    <input id="name" name="name" class="check_err" placeholder="Michał" type="name" required><br><br>
-
-    <label for="surname">Nazwisko</label><br>
-    <input id="surname" name="surname" class="check_err" placeholder="Kowalski" type="surname" required><br><br>
-
-    <label for="email">adres email</label><br>
-    <input id="email" name="email" class="check_err" placeholder="michal@gmail.com" type="email" required><br><br>
-
-    <label for="code">kod pocztowy</label><br>
-    <input type="text" id="code" name="code" class="check_err" placeholder="90-123" pattern="^[0-9]{2}-[0-9]{3}$"
-        required><br><br>
-
-    <label for="nip">nip</label><br>
-    <input type="text" id="nip" name="nip" class="check_err" placeholder="123-456-78-19"
-        pattern="^[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}$" required><br><br>
-
-    <label for="id_card">numer dowodu</label><br>
-    <input type="text" id="id_card" name="id_card" class="check_err" placeholder="ABC123456"
-        pattern="^[A-Z]{3}[0-9]{6}$" required><br><br>
-
-
-    <label for="phone">numer telefonu</label><br>
-    <input id="phone" name="phone" class="check_err" placeholder="567810344" type="tel" pattern="^[0-9]{9}$"
-        required><br><br>
-
-    <button onClick="fillData()">Dane losowe</button>
-    <button onClick="saveData()">Wyślij</button>
 
 </body>
 
